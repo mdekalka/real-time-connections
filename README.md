@@ -1,12 +1,12 @@
 ## Server-sent events basic example using React + Node.
 
-In the project directory, you can run:
+In the root directory you can run to start a server:
 
-### `node server.js`
+### `yarn start-server`
 
 runs Node server on port 3002.
 
-Navigate to `sse-client` folder and run this command:
+In the project directory you can run to start a client:
 ### `yarn start`
 
 Runs a react app on port 3000.\
