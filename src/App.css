@@ -1,23 +1,10 @@
-.facts {
-  font-size: 20px;
-  font-weight: bold;
+body, html, #root {
+  height: 100%;
 }
 
-.facts-item {
-  position: relative;
-}
-
-.facts-item:last-child {
-  animation: fadeIn .3s ease;
-}
-
-@keyframes fadeIn {
-  0% { 
-    transform: translateY(-15px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.app {
+  display: flex;
+  height: 100%;
+  background: #111111 url('./images/bg.png');
+  color: #fff;
 }
