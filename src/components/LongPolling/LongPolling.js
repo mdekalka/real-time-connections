@@ -7,6 +7,7 @@ import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
 
 export const LongPolling = () => {
   const [ polling, setPolling ] = useState(true);
+  const [ fetching, setFetching ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ shortcodes, setShortcodes ] = useState([]);
 
@@ -14,9 +15,13 @@ export const LongPolling = () => {
     if (!polling) return;
 
     const request = async (polling) => {
+      setFetching(true);
+
       try {
         const response = await fetch(`${API_URL}/long-polling`);
         const data = await response.json();
+
+        setFetching(false);
 
         if (!polling) return;
 
@@ -25,6 +30,7 @@ export const LongPolling = () => {
         request();
       } catch(e) {
         setError(e.message);
+        setFetching(false);
         console.log('short polling fetch failed:', e.message);
       }
     }
@@ -49,6 +55,7 @@ export const LongPolling = () => {
       <ButtonsBox
         onStart={() => setPolling(true)}
         onStop={() => setPolling(false)}
+        fetching={fetching}
         disabled={!polling}
       />
       {error && <div className="error">{error}</div>}

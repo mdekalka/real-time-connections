@@ -1,23 +1,46 @@
 .buttons-box {
   display: flex;
   margin: 45px 0;
+
+  .button {
+    margin-right: 25px;
+    padding: 8px 25px;
+    background: #3b3f4c;
+    color: #D6DBDF;
+    font-size: 15px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+      color: #fff;
+      background: #85bd2596;
+    }
+  }
+
+  .status {
+    margin-right: 25px;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    margin-left: 10px;
+    border: 2px solid #797f83;
+    border-right: 2px solid #a6e22e;
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+
+    &.hide {
+      display: none;
+    }
+  }
 }
 
-.buttons-box .button {
-  margin-right: 25px;
-}
-
-.button {
-  padding: 8px 25px;
-  background: #3b3f4c;
-  color: #D6DBDF;
-  font-size: 15px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border: none;
-}
-
-.button:hover {
-  color: #fff;
-  background: #85bd2596;
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
+  }
 }

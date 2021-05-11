@@ -9,6 +9,7 @@ const POLLING_DELAY = 5000; // 5 sec
 
 export const ShortPolling = () => {
   const [ polling, setPolling ] = useState(true);
+  const [ fetching, setFetching ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ pingList, setPingList ] = useState([]);
   const timeoutId = useRef(null);
@@ -30,6 +31,8 @@ export const ShortPolling = () => {
     const now = new Date();
 
     const request = async () => {
+      setFetching(true);
+
       try {
         const response = await fetch(`${API_URL}/short-polling`);
         const data = await response.json();
@@ -42,12 +45,14 @@ export const ShortPolling = () => {
         };
 
         setPingList(pings => [...pings, ping]);
+        setFetching(false);
 
         timeoutId.current = window.setTimeout(() => {
           request();
         }, POLLING_DELAY);
       } catch(e) {
         setError(e.message);
+        setFetching(false);
         console.log('short polling fetch failed:', e.message);
       }
     }
@@ -73,6 +78,7 @@ export const ShortPolling = () => {
       <ButtonsBox
         onStart={() => setPolling(true)}
         onStop={() => setPolling(false)}
+        fetching={fetching}
         disabled={!polling}
       />
       {error && <div className="error">{error}</div>}
