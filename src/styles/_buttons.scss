@@ -1,0 +1,23 @@
+.buttons-box {
+  display: flex;
+  margin: 45px 0;
+}
+
+.buttons-box .button {
+  margin-right: 25px;
+}
+
+.button {
+  padding: 8px 25px;
+  background: #3b3f4c;
+  color: #D6DBDF;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+}
+
+.button:hover {
+  color: #fff;
+  background: #85bd2596;
+}

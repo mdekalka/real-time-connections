@@ -17,5 +17,9 @@ app.listen(PORT, () => {
   console.log(`Facts Events service listening at http://localhost:${PORT}`)
 })
 
+app.get('/short-polling', function(request, response) {
+  response.json({ ping: Math.random() < 0.5 });
+});
+
 // SSE events handler
-app.get('/events', eventsHandler);
+// app.get('/events', eventsHandler);

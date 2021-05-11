@@ -6,11 +6,6 @@
   animation: fadeIn .3s ease;
 }
 
-.error {
-  color: #d83030;
-  font-weight: bold;
-}
-
 .header {
   color: #fff;
 }

@@ -1,0 +1,46 @@
+.indicator {
+  display: inline-block;
+  position: relative;
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color: #a6e22e;
+  transition: all .95s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    background: rgba(26, 92, 118, 0.45);
+    border: 1px solid #a6e22e;
+    border-radius: 50%;
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    animation: pulse 1.7s ease-out infinite;
+  }
+
+  &.disabled {
+    background-color: red;
+
+    &::before {
+      content: none;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,39 @@
+/* react-tabs overrides styles */
+.react-tabs {
+  width: 1280px;
+  margin: 20px auto;
+
+  &__tab-list {
+    margin-bottom: 0px;
+    background: #1B1C20;
+    border-bottom: 2px solid #000;
+  }
+
+  &__tab {
+    padding: 16px 40px;
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    outline: none;
+
+    &:hover {
+      color: #a3a2a6;
+    }
+
+    &::after {
+      content: none !important;
+    }
+
+    &--selected  {
+      color: #7db025;
+      border: none;
+      border-bottom: 2px solid #7db025;
+    }
+
+    &-panel {
+      text-align: left;
+      padding: 20px;
+      background: #121215;
+    }
+  }
+}

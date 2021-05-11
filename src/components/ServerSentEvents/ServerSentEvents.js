@@ -2,15 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 
 import './SSE.css';
 
-
-const API_URL = 'http://localhost:3002';
-
 function getRandomColor() {
   return `#${Math.floor(Math.random()*16777215).toString(16)}`;
 }
 
 
-export const SSE = () => {
+export const ServerSentEvents = () => {
   const eventSource = useRef(null);
   const factsRef = useRef();
   const [ color, setColor ] = useState('#000');
@@ -63,7 +60,7 @@ export const SSE = () => {
 
   return (
     <div className="sse-example">
-      <h3 className="header">SSE example with Node.js</h3>
+      <h3 className="header">Server-sent events(S) example with Node.js</h3>
       <p className="text">Every 5 seconds server will generate random fact and send it via SSE to client-side</p>
       <p className="text">Open the <span className="highlight">dev tools</span> and find in the network tab <span className="highlight">/events</span> request. Client receives <span className="highlight">JSON</span> data, which could be parsed and rendered on the client-side.</p>
 

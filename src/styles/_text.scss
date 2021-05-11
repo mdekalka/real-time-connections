@@ -1,0 +1,17 @@
+.highlight {
+  color: #a6e22e;
+}
+
+.error {
+  color: #d83030;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.status .indicator {
+  margin-left: 10px;
+}

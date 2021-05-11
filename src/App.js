@@ -1,12 +1,25 @@
-import { SSE } from './SSE/SSE';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import './App.css';
+import { ShortPolling } from './components/ShortPolling/ShortPolling';
+
+import './App.scss';
 
 
 function App() {
   return (
     <div className="app">
-      <SSE />
+      <Tabs>
+        <TabList>
+          <Tab>Short polling</Tab>
+          <Tab>Long polling</Tab>
+          <Tab>Server-sent events</Tab>
+          <Tab>Web sockets</Tab>
+        </TabList>
+
+        <TabPanel>
+          <ShortPolling />
+        </TabPanel> 
+      </Tabs>
     </div>
   );
 }
