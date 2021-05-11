@@ -21,5 +21,12 @@ app.get('/short-polling', function(request, response) {
   response.json({ ping: Math.random() < 0.5 });
 });
 
+const LONG_POLLING_DELAY = 10000; //10 sec
+app.get('/long-polling', function(request, response) {
+  setTimeout(() => {
+    response.json({ shortcode: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6) });
+  }, LONG_POLLING_DELAY)
+});
+
 // SSE events handler
 // app.get('/events', eventsHandler);

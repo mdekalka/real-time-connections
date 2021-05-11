@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import cx from 'classnames';
 
 import { API_URL, getSecondsDifference, prettyDate } from '../../utils/utils';
 
+import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
+
 const POLLING_DELAY = 5000; // 5 sec
+
 
 export const ShortPolling = () => {
   const [ polling, setPolling ] = useState(true);
@@ -67,12 +69,14 @@ export const ShortPolling = () => {
         <br />
         Server will randomly generates <span className="highlight">boolean</span> value and returns it back to the client.
       </p>
-      <div className="buttons-box">
-        <button className="button" onClick={() => setPolling(true)}>start</button>
-        <button className="button" onClick={() => setPolling(false)}>stop</button>
-        <div className="status">Active polling status <span className={cx('indicator', { disabled: !polling })}></span></div>
-      </div>
+
+      <ButtonsBox
+        onStart={() => setPolling(true)}
+        onStop={() => setPolling(false)}
+        disabled={!polling}
+      />
       {error && <div className="error">{error}</div>}
+
       <table>
         <thead>
           <tr>
