@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { API_URL } from '../../utils/utils';
 
@@ -6,15 +6,23 @@ import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
 
 
 export const LongPolling = () => {
+  const unmounted = useRef(null);
   const [ polling, setPolling ] = useState(true);
   const [ fetching, setFetching ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ shortcodes, setShortcodes ] = useState([]);
 
   useEffect(() => {
-    if (!polling) return;
+    if (!polling) {
+      unmounted.current = true;
+      return;
+    };
+
+    unmounted.current = false;
 
     const request = async (polling) => {
+      if (unmounted.current) return;
+
       setFetching(true);
 
       try {
@@ -22,12 +30,11 @@ export const LongPolling = () => {
         const data = await response.json();
 
         setFetching(false);
-
-        if (!polling) return;
+        if (unmounted.current) return;
 
         setShortcodes(shortcodes => [...shortcodes, data.shortcode]);
 
-        request();
+        request(polling);
       } catch(e) {
         setError(e.message);
         setFetching(false);
@@ -36,6 +43,10 @@ export const LongPolling = () => {
     }
 
     request(polling);
+
+    return function() {
+      unmounted.current = true;
+    }
   }, [polling]);
 
   return (
@@ -46,7 +57,7 @@ export const LongPolling = () => {
         Being very easy to implement, it’s also good enough in a lot of cases.
       </p>
       <p>
-        Open the dev tools and find <span className="highlight">/long-polling</span> request in the network tab, next HTTP call will be requeted immediately after previous one responded.
+        Open dev tools and find <span className="highlight">/long-polling</span> request(s) in the network tab, next HTTP call will be requeted immediately after previous one responded.
       </p>
       <p>
         Server will wait for <span className="highlight">10 seconds</span> and randomly generate a shortcode, at tha time HTTP request will be in <span className="highlight">pending</span> state and will be closed only after receving the data.

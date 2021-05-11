@@ -6,18 +6,6 @@
   animation: fadeIn .3s ease;
 }
 
-.header {
-  color: #fff;
-}
-
-.text {
-  color: #b3b2b2;
-}
-
-.highlight {
-  color: #00ffac;
-}
-
 @keyframes fadeIn {
   0% { 
     transform: translateY(-15px);

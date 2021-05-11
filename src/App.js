@@ -2,6 +2,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { ShortPolling } from './components/ShortPolling/ShortPolling';
 import { LongPolling } from './components/LongPolling/LongPolling';
+import { ServerSentEvents } from './components/ServerSentEvents/ServerSentEvents';
 
 import './App.scss';
 
@@ -9,7 +10,7 @@ import './App.scss';
 function App() {
   return (
     <div className="app">
-      <Tabs defaultIndex={1}>
+      <Tabs defaultIndex={2}>
         <TabList>
           <Tab>Short polling</Tab>
           <Tab>Long polling</Tab>
@@ -22,7 +23,10 @@ function App() {
         </TabPanel>
         <TabPanel>
           <LongPolling />
-        </TabPanel> 
+        </TabPanel>
+        <TabPanel>
+          <ServerSentEvents />
+        </TabPanel>
       </Tabs>
     </div>
   );

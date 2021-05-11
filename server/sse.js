@@ -27,6 +27,9 @@ function eventsHandler(request, response, next) {
   clients.push(newClient);
 
   request.on('close', () => {
+    clearInterval(intervalId);
+    intervalId = null;
+    
     console.log(`${clientId} Connection closed`);
     clients = clients.filter(client => client.id !== clientId);
   });

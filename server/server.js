@@ -28,5 +28,4 @@ app.get('/long-polling', function(request, response) {
   }, LONG_POLLING_DELAY)
 });
 
-// SSE events handler
-// app.get('/events', eventsHandler);
+app.get('/events', eventsHandler);

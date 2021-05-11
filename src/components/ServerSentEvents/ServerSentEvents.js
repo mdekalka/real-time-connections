@@ -1,24 +1,32 @@
 import { useState, useEffect, useRef } from 'react';
 
-import './SSE.css';
+import { API_URL, getRandomColor } from '../../utils/utils';
 
-function getRandomColor() {
-  return `#${Math.floor(Math.random()*16777215).toString(16)}`;
-}
+import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
+
+import './ServerSentEvents.css';
 
 
 export const ServerSentEvents = () => {
   const eventSource = useRef(null);
-  const factsRef = useRef();
+
+  const [ polling, setPolling ] = useState(true);
+  const [ fetching, setFetching ] = useState(false);
   const [ color, setColor ] = useState('#000');
   const [ error, setError ] = useState(null);
   const [ facts, setFacts ] = useState([]);
 
   useEffect(() => {
-    eventSource.current = new EventSource(`${API_URL}/events`);
+    const initEventSource = () => {
+      eventSource.current = new EventSource(`${API_URL}/events`);
+      setFetching(true);
+  
+      eventSource.current.addEventListener('message', handleMessageEvent);
+      eventSource.current.addEventListener('error', handleErrorEvent);
+    }
 
-    eventSource.current.addEventListener('message', handleMessageEvent);
-    eventSource.current.addEventListener('error', handleErrorEvent);
+    if (!polling) return;
+
 
     function handleMessageEvent(event) {
       try {
@@ -26,23 +34,29 @@ export const ServerSentEvents = () => {
 
         setFacts(facts => [...facts, ...parsedData]);
         setColor(getRandomColor());
-        scrollToFact();
       } catch (e) {
+        setFetching(false);
+        setError(e.message);
         console.error('error with parsing event data', e.message);
       }
     }
 
     function handleErrorEvent() {
+      setFetching(false);
       setError('Something bad happens with server, sorry :(. Please reload the page.');
     }
 
+    initEventSource();
+
     return function() {
       if (eventSource.current) {
+        setFetching(false);
         eventSource.current.removeEventListener('message', handleMessageEvent);
         eventSource.current.removeEventListener('error', handleErrorEvent);
+        eventSource.current.close();
       }
     }
-  }, []);
+  }, [polling]);
 
   function setStyles(index) {
     if (facts.length === index + 1) {
@@ -50,23 +64,25 @@ export const ServerSentEvents = () => {
     }
   }
 
-  function scrollToFact() {
-    if (factsRef && factsRef.current) {
-      const lastFact = factsRef.current.querySelector('.facts-item:last-child');
-
-      lastFact && lastFact.scrollIntoView();
-    }
-  }
-
   return (
     <div className="sse-example">
-      <h3 className="header">Server-sent events(S) example with Node.js</h3>
-      <p className="text">Every 5 seconds server will generate random fact and send it via SSE to client-side</p>
-      <p className="text">Open the <span className="highlight">dev tools</span> and find in the network tab <span className="highlight">/events</span> request. Client receives <span className="highlight">JSON</span> data, which could be parsed and rendered on the client-side.</p>
+      <p>The Server-Sent Events specification describes a built-in class <span className="highlight">EventSource</span>, that keeps connection with the server and allows to receive events from it.</p>
+      <p>It's one-directional, only server sends data via opened regular HTTP connection.</p>
 
+      <p>
+        Open dev tools and find <span className="highlight">/events</span> request in the network tab. <br />
+        Every <span className="highlight">5</span> seconds server will generate random fact and send it as stringified JSON to client <span className="highlight">w/o closing</span> the HTTP connection.
+      </p>
+      <ButtonsBox
+        onStart={() => setPolling(true)}
+        onStop={() => setPolling(false)}
+        fetching={fetching}
+        disabled={!fetching}
+      />
       {error && <div className="error">{error}</div>}
+
       {!error && (
-        <ul className="facts" ref={factsRef}>
+        <ul className="facts">
           {facts.map((fact, i) => <li className="facts-item" key={i} style={setStyles(i)}>{fact}</li>)}
         </ul>
       )}

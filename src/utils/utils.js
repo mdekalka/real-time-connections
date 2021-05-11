@@ -7,3 +7,7 @@ export const getSecondsDifference = (startDate, endDate) => {
 export const prettyDate = (date) => {
   return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit', second: '2-digit' });
 }
+
+export const getRandomColor = () => {
+  return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+}

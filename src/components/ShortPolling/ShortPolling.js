@@ -24,7 +24,6 @@ export const ShortPolling = () => {
 
     if (!polling) {
       clearTimeout();
-      setPingList([]);
       return;
     }
 
@@ -70,7 +69,7 @@ export const ShortPolling = () => {
         <span className="highlight">Short polling</span> is periodic polling to the server to check if there are any new information available. That's it, <span className="highlight">regular</span> requests to the server often with <span className="highlight">5-10 sec delays</span>.
       </p>
       <p>
-        Open the dev tools and find <span className="highlight">/short-polling</span> request in the network tab, it will be sequential HTTP requests with <span className="highlight">5 seconds delay</span> to the server.
+        Open dev tools and find <span className="highlight">/short-polling</span> request(s) in the network tab, it will be sequential HTTP requests with <span className="highlight">5 seconds delay</span> to the server.
         <br />
         Server will randomly generates <span className="highlight">boolean</span> value and returns it back to the client.
       </p>
@@ -92,9 +91,9 @@ export const ShortPolling = () => {
         </thead>
 
         <tbody>
-          {pingList.map(({ date, timeDifference, value }) => {
+          {pingList.map(({ date, timeDifference, value }, index) => {
             return (
-              <tr key={timeDifference}>
+              <tr key={index}>
                 <td>{date} / in ~{timeDifference} seconds</td>
                 <td>{value.toString()}</td>
               </tr>
