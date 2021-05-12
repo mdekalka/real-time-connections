@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useAsyncReference } from '../../hooks/useAsyncReference';
-
 import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
 
 
@@ -13,7 +11,7 @@ export const WebSockets = () => {
   const [ error, setError ] = useState(null);
 
   useEffect(() => {
-    wsInstance.current = new WebSocket('ws://localhost:8000');
+    wsInstance.current = new WebSocket('ws://localhost:8002');
 
     wsInstance.current.addEventListener('open', () => {
       setFetching(true);

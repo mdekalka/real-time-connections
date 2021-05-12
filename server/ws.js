@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 const { getRandomFact } = require('./utils');
 
 const INTERVAL_UPDATE_DELAY = 5000; // 5 sec
-const wss = new WebSocket.Server({ port: 8000 });
+const wss = new WebSocket.Server({ port: 8002 });
 let intervalId = null;
 
 
