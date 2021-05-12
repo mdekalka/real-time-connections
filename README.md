@@ -3,14 +3,19 @@
 Kinda small preview of each approach w/o hard science.
 
 
-In the root directory you can run to start a server:
+In the root directory run:
 
-### `yarn start-server`
+```sh
+yarn start-server
+```
+to start a Node server on port 3002.
 
-runs Node server on port 3002.
 
-In the project directory you can run to start a client:
-### `yarn start`
+In the root directory run:
+```sh
+yarn start
+```
+to start a client app
 
 Runs a react app on port 3000.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
