@@ -1,4 +1,7 @@
-## Server-sent events basic example using React + Node.
+##  Real-time connection examples(short polling, long polling, server-sent events, websockets).
+
+Kinda small preview of each approach w/o hard science.
+
 
 In the root directory you can run to start a server:
 
@@ -12,5 +15,5 @@ In the project directory you can run to start a client:
 Runs a react app on port 3000.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-#
-See the section about [SSE](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) for more information.
+# Demo preview
+TODO
