@@ -27,23 +27,20 @@ async function eventsHandler(request, response, next) {
   clients.push(newClient);
 
   request.on('close', () => {
-    clearInterval(intervalId);
-    intervalId = null;
+    resetInterval();
     
     console.log(`${clientId} Connection closed`);
     clients = clients.filter(client => client.id !== clientId);
   });
 
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
-  }
+  resetInterval();
+
+  const fact = await getRandomFact();
+  
+  publishFacts(fact);
 
   intervalId = setInterval(async () => {
     const fact = await getRandomFact();
-
-    facts.push(fact);
-    sendEventsToAll([fact]);
 
     publishFacts(fact);
   }, INTERVAL_UPDATE_DELAY);
@@ -51,6 +48,18 @@ async function eventsHandler(request, response, next) {
 
 function sendEventsToAll(newFact) {
   clients.forEach(client => client.response.write(`data: ${JSON.stringify(newFact)}\n\n`))
+}
+
+function resetInterval() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+}
+
+function publishFacts(fact) {
+  facts.push(fact);
+  sendEventsToAll([fact]);
 }
 
 module.exports = {
