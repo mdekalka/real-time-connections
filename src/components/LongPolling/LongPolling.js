@@ -57,24 +57,23 @@ export const LongPolling = () => {
         Being very easy to implement, it’s also good enough in a lot of cases.
       </p>
       <p>
-        Open dev tools and find <span className="highlight">/long-polling</span> request(s) in the network tab, next HTTP call will be requeted immediately after previous one responded.
-      </p>
-      <p>
-        Server will wait for <span className="highlight">10 seconds</span> and randomly generate a shortcode, at tha time HTTP request will be in <span className="highlight">pending</span> state and will be closed only after receving the data.
+        Open dev tools and find <span className="highlight">/long-polling</span> request(s) in the network tab, next HTTP call will be requeted immediately after previous one responded. <br />
+        Server will wait for <span className="highlight">5 seconds</span> and randomly generate a shortcode, at tha time HTTP request will be in <span className="highlight">pending</span> state and will be closed only after receving the data.
       </p>
 
       <ButtonsBox
         onStart={() => setPolling(true)}
         onStop={() => setPolling(false)}
+        hasPolling
+        polling={polling}
         fetching={fetching}
-        disabled={!polling}
       />
       {error && <div className="error">{error}</div>}
 
       <table>
         <thead>
           <tr>
-            <th>Request index </th>
+            <th>Request index</th>
             <th>Response shortcode</th>
           </tr>
         </thead>

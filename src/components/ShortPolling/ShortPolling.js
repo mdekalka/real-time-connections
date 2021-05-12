@@ -77,8 +77,9 @@ export const ShortPolling = () => {
       <ButtonsBox
         onStart={() => setPolling(true)}
         onStop={() => setPolling(false)}
+        hasPolling
+        polling={polling}
         fetching={fetching}
-        disabled={!polling}
       />
       {error && <div className="error">{error}</div>}
 

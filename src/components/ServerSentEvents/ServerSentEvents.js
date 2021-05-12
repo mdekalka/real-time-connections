@@ -10,8 +10,7 @@ import './ServerSentEvents.css';
 export const ServerSentEvents = () => {
   const eventSource = useRef(null);
 
-  const [ polling, setPolling ] = useState(true);
-  const [ fetching, setFetching ] = useState(false);
+  const [ fetching, setFetching ] = useState(true);
   const [ color, setColor ] = useState('#000');
   const [ error, setError ] = useState(null);
   const [ facts, setFacts ] = useState([]);
@@ -25,7 +24,7 @@ export const ServerSentEvents = () => {
       eventSource.current.addEventListener('error', handleErrorEvent);
     }
 
-    if (!polling) return;
+    if (!fetching) return;
 
 
     function handleMessageEvent(event) {
@@ -56,7 +55,7 @@ export const ServerSentEvents = () => {
         eventSource.current.close();
       }
     }
-  }, [polling]);
+  }, [fetching]);
 
   function setStyles(index) {
     if (facts.length === index + 1) {
@@ -66,7 +65,9 @@ export const ServerSentEvents = () => {
 
   return (
     <div className="sse-example">
-      <p>The Server-Sent Events specification describes a built-in class <span className="highlight">EventSource</span>, that keeps connection with the server and allows to receive events from it.</p>
+      <p>
+        <span className="highlight">The Server-Sent Events</span> specification describes a built-in class <span className="highlight">EventSource</span>, that keeps connection with the server and allows to receive events from it.
+      </p>
       <p>It's one-directional, only server sends data via opened regular HTTP connection.</p>
 
       <p>
@@ -74,10 +75,9 @@ export const ServerSentEvents = () => {
         Every <span className="highlight">5</span> seconds server will generate random fact and send it as stringified JSON to client <span className="highlight">w/o closing</span> the HTTP connection.
       </p>
       <ButtonsBox
-        onStart={() => setPolling(true)}
-        onStop={() => setPolling(false)}
+        onStart={() => setFetching(true)}
+        onStop={() => setFetching(false)}
         fetching={fetching}
-        disabled={!fetching}
       />
       {error && <div className="error">{error}</div>}
 

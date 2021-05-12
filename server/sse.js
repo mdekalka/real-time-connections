@@ -1,6 +1,6 @@
 const { getRandomFact } = require('./utils');
 
-const INTERVAL_UPDATE_DELAY = 5000; // 5sec
+const INTERVAL_UPDATE_DELAY = 5000; // 5 sec
 let clients = [];
 let facts = [];
 let intervalId = null;

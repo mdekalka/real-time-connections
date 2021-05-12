@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const { eventsHandler } = require('./sse');
+require('./ws');
 
 const PORT = 3002;
 
@@ -21,7 +22,7 @@ app.get('/short-polling', function(request, response) {
   response.json({ ping: Math.random() < 0.5 });
 });
 
-const LONG_POLLING_DELAY = 10000; //10 sec
+const LONG_POLLING_DELAY = 5000; // 5sec
 app.get('/long-polling', function(request, response) {
   setTimeout(() => {
     response.json({ shortcode: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6) });
