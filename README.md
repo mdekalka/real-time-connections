@@ -15,10 +15,8 @@ In the root directory run:
 ```sh
 yarn start
 ```
-to start a client app
-
-Runs a react app on port 3000.\
+to start a client react app on port 3000.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # Demo preview
-TODO
+https://user-images.githubusercontent.com/5993559/117982445-ad31d300-b33e-11eb-9af8-ba665269953c.mp4
