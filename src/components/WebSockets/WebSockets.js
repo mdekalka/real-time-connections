@@ -7,16 +7,12 @@ import { ButtonsBox } from '../ButtonsBox/ButtonsBox';
 
 export const WebSockets = () => {
   const wsInstance = useRef(null);
-  const [ fetching, setFetching ] = useAsyncReference(false);
+  const [ fetching, setFetching ] = useState(false);
 
   const [ events, setEvents ] = useState([])
   const [ error, setError ] = useState(null);
 
   useEffect(() => {
-    if (wsInstance.current) {
-      return;
-    }
-
     wsInstance.current = new WebSocket('ws://localhost:8000');
 
     wsInstance.current.addEventListener('open', () => {
@@ -24,11 +20,9 @@ export const WebSockets = () => {
     });
 
     wsInstance.current.addEventListener('message', response => {
-      // Dummy guard to not parse events, kinda simulating closing connection(just for demo purpose)
-      if (!fetching.current) return;
-
       try {
         const event = JSON.parse(response.data);
+        
         setEvents(events => [...events, event]);
       } catch(e) {
         console.log('ws message parsed error:', e.message);
@@ -44,9 +38,7 @@ export const WebSockets = () => {
       setFetching(false);
       console.log('ws connection closed');
     });
-
-  }, [fetching.current]);
-
+  }, []);
 
   const sendClientMessage = () => {
     if (wsInstance.current) {
@@ -68,11 +60,7 @@ export const WebSockets = () => {
         Open dev tools and find <span className="highlight">/ws</span> connection in the network(WS) tab. <br />
         Every <span className="highlight">5</span> seconds server will generate random fact and send it as stringified JSON to client.
       </p>
-      <ButtonsBox
-        onStart={() => setFetching(true)}
-        onStop={() => setFetching(false)}
-        fetching={fetching.current}
-      >
+      <ButtonsBox fetching={fetching} >
         <button className="button" onClick={sendClientMessage}>Send client message</button>
       </ButtonsBox>
       {error && <div className="error">{error}</div>}

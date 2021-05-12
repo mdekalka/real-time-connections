@@ -11,7 +11,7 @@ import './App.scss';
 function App() {
   return (
     <div className="app">
-      <Tabs defaultIndex={3}>
+      <Tabs>
         <TabList>
           <Tab>Short polling</Tab>
           <Tab>Long polling</Tab>

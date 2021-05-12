@@ -6,7 +6,7 @@ let facts = [];
 let intervalId = null;
 
 
-function eventsHandler(request, response, next) {
+async function eventsHandler(request, response, next) {
   const headers = {
     'Content-Type': 'text/event-stream',
     'Connection': 'keep-alive',
@@ -42,11 +42,10 @@ function eventsHandler(request, response, next) {
   intervalId = setInterval(async () => {
     const fact = await getRandomFact();
 
-    console.log('new fact', fact);
-
     facts.push(fact);
     sendEventsToAll([fact]);
 
+    publishFacts(fact);
   }, INTERVAL_UPDATE_DELAY);
 }
 

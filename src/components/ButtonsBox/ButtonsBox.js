@@ -6,8 +6,8 @@ import './ButtonsBox.scss';
 export const ButtonsBox = ({ onStart, onStop, polling, fetching, hasPolling, children }) => {
   return (
     <div className="buttons-box">
-      <button className="button" onClick={onStart}>start</button>
-      <button className="button" onClick={onStop}>stop</button>
+      {onStart && <button className="button" disabled={polling} onClick={onStart}>start</button>}
+      {onStop && <button className="button" disabled={!polling} onClick={onStop}>stop</button>}
       {hasPolling && (
         <div className="status polling-status">Active polling status: <span className={cx('indicator', { disabled: !polling })}></span>
         </div>

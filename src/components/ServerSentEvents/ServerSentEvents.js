@@ -10,7 +10,7 @@ import './ServerSentEvents.css';
 export const ServerSentEvents = () => {
   const eventSource = useRef(null);
 
-  const [ fetching, setFetching ] = useState(true);
+  const [ connected, setConnected ] = useState(true);
   const [ color, setColor ] = useState('#000');
   const [ error, setError ] = useState(null);
   const [ facts, setFacts ] = useState([]);
@@ -18,14 +18,13 @@ export const ServerSentEvents = () => {
   useEffect(() => {
     const initEventSource = () => {
       eventSource.current = new EventSource(`${API_URL}/events`);
-      setFetching(true);
+      setConnected(true);
   
       eventSource.current.addEventListener('message', handleMessageEvent);
       eventSource.current.addEventListener('error', handleErrorEvent);
     }
 
-    if (!fetching) return;
-
+    if (!connected) return;
 
     function handleMessageEvent(event) {
       try {
@@ -34,14 +33,14 @@ export const ServerSentEvents = () => {
         setFacts(facts => [...facts, ...parsedData]);
         setColor(getRandomColor());
       } catch (e) {
-        setFetching(false);
+        setConnected(false);
         setError(e.message);
         console.error('error with parsing event data', e.message);
       }
     }
 
     function handleErrorEvent() {
-      setFetching(false);
+      setConnected(false);
       setError('Something bad happens with server, sorry :(. Please reload the page.');
     }
 
@@ -49,13 +48,14 @@ export const ServerSentEvents = () => {
 
     return function() {
       if (eventSource.current) {
-        setFetching(false);
+        setConnected(false);
         eventSource.current.removeEventListener('message', handleMessageEvent);
         eventSource.current.removeEventListener('error', handleErrorEvent);
         eventSource.current.close();
+        eventSource.current = null;
       }
     }
-  }, [fetching]);
+  }, []);
 
   function setStyles(index) {
     if (facts.length === index + 1) {
@@ -74,11 +74,7 @@ export const ServerSentEvents = () => {
         Open dev tools and find <span className="highlight">/events</span> request in the network tab. <br />
         Every <span className="highlight">5</span> seconds server will generate random fact and send it as stringified JSON to client <span className="highlight">w/o closing</span> the HTTP connection.
       </p>
-      <ButtonsBox
-        onStart={() => setFetching(true)}
-        onStop={() => setFetching(false)}
-        fetching={fetching}
-      />
+      <ButtonsBox fetching={connected} />
       {error && <div className="error">{error}</div>}
 
       {!error && (
